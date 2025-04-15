@@ -1,0 +1,80 @@
+[
+  {
+    "full_name": "6 Tanglewood Drive",
+    "friendly_name": "Tanglewood",
+    "emoji": "🏠",
+    "size": "small"
+  },
+  {
+    "full_name": "10 Ridgeview Court",
+    "friendly_name": "Ridgeview",
+    "emoji": "🏠",
+    "size": "small"
+  },
+  {
+    "full_name": "13 Willow Street",
+    "friendly_name": "Willow Street",
+    "emoji": "🏠",
+    "size": "small"
+  },
+  {
+    "full_name": "42 Edgefield Road",
+    "friendly_name": "Edgefield",
+    "emoji": "🏠",
+    "size": "small"
+  },
+  {
+    "full_name": "Camp Woodwind",
+    "friendly_name": "Camp Woodwind",
+    "emoji": "⛺️",
+    "size": "small"
+  },
+  {
+    "full_name": "Grafton Farmhouse",
+    "friendly_name": "Grafton",
+    "emoji": "🚜",
+    "size": "small"
+  },
+  {
+    "full_name": "Bleasdale Farmhouse",
+    "friendly_name": "Bleasdale",
+    "emoji": "🚜",
+    "size": "medium"
+  },
+  {
+    "full_name": "Maple Lodge Campsite",
+    "friendly_name": "Maple Lodge",
+    "emoji": "⛺️",
+    "size": "medium"
+  },
+  {
+    "full_name": "Point Hope",
+    "friendly_name": "Point Hope",
+    "emoji": "🚨",
+    "size": "medium"
+  },
+  {
+    "full_name": "Prison",
+    "friendly_name": "Prison",
+    "emoji": "🚓",
+    "size": "medium"
+  },
+  {
+    "full_name": "Sunny Meadows Restricted",
+    "friendly_name": "Sunny Meadows Restricted",
+    "emoji": "🏥",
+    "size": "medium"
+  },
+  {
+    "full_name": "Brownstone High School",
+    "friendly_name": "Brownstone",
+    "emoji": "🏫",
+    "size": "large"
+  },
+  {
+    "full_name": "Sunny Meadows",
+    "friendly_name": "Sunny Meadows",
+    "emoji": "🏥",
+    "size": "large"
+  }
+]
