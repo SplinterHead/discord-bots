@@ -10,6 +10,42 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
+INTRO_LINES = [
+    "You're headed to",
+    "Pack your equipment, we're rolling out to",
+    "Don't panic, it's only",
+    "Is it a mansion? Is it a caravan? nah, it's",
+    "The spirits are stirring… we're headed to",
+    "Pack your EMF reader, we're rolling into",
+    "The veil is thin tonight, we go to",
+    "Don’t look behind you, just walk toward",
+    "They say no one leaves",
+    "Hope you brought salt, we're off to",
+    "The air’s colder near",
+    "Ghosts love this place; we’re heading to",
+    "You hear that whisper? It’s calling us to",
+    "Something’s waiting in the dark at",
+    "Not all who enter return from",
+    "Tonight, the hunt leads us to",
+    "Grave warnings won’t stop us from going to",
+    "Our next investigation takes us to",
+    "Lights flicker every time we say",
+    "There’s a chill in the wind… must be",
+    "The last team never came back from",
+    "Whatever’s haunting it, we’re heading to",
+    "We don’t go around the haunted place… we go straight to",
+    "Say a prayer, we’re off to",
+    "Something’s been waiting centuries at",
+    "You smell that? Death’s perfume. Welcome to",
+    "We’ve traced the anomaly to",
+    "The shadows are thickest at",
+    "Cross your fingers and follow me to",
+    "The dead don’t rest in",
+    "Hope you like cold spots—we’re bound for",
+    "Heard a scream last night… came from",
+    "They say it’s cursed, but we’re going to",
+    "Whatever’s lurking in the dark lives in",
+]
 
 with open("phasmo_maps.json") as f:
     PHASMO_MAPS = json.load(f)
@@ -43,11 +79,7 @@ async def on_ready():
 @bot.tree.command(
     name="phasmo", description="Choose a random Phasmophobia map based on attributes."
 )
-@app_commands.describe(
-    size="Choose a map by its size",
-    # options="Enter your own list of options separated by spaces (e.g. red blue green)",
-    # preset="Choose from a preset list (e.g. chores, games, food)",
-)
+@app_commands.describe(size="Choose a map by its size")
 async def spin(interaction: discord.Interaction, size: str = None):
     if size:
         size_key = size.lower()
@@ -62,9 +94,10 @@ async def spin(interaction: discord.Interaction, size: str = None):
     else:
         option_list = PRESETS["all_maps"]
 
+    prefix = random.choice(INTRO_LINES)
     result = random.choice(option_list)
     await interaction.response.send_message(
-        f"You're headed to {result["emoji"]} **{result["full_name"]}**"
+        f"{prefix} **{result["full_name"]}** {result["emoji"]}"
     )
 
 
