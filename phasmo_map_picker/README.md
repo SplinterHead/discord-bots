@@ -9,3 +9,6 @@ Choose a random map out of all of the maps
 
 Choose a random small map
 `/phasmo size small`
+
+Show information about the weekly challenge
+`/weekly`

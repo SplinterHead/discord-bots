@@ -3,6 +3,7 @@ import os
 import random
 
 import discord
+import requests
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -59,7 +60,21 @@ PRESETS = {
 }
 
 
-class SpinBot(commands.Bot):
+def format_weekly_msg(weekly_challenge: dict) -> str:
+    title = weekly_challenge["challenge"]
+    description = weekly_challenge["description"]
+    map = weekly_challenge["map"]
+    num_evidence = weekly_challenge["details"]["num_evidence"]
+    challenge_msg = [
+        f"## {title}",
+        f"_{description}_ \n",
+        f"### 🏚️ {map}",
+        f"* You get **{num_evidence}** evidence{"s" if num_evidence > 1 else ""}",
+    ]
+    return "\n".join(challenge_msg)
+
+
+class PhasmoBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
         super().__init__(command_prefix="!", intents=intents)
@@ -68,7 +83,7 @@ class SpinBot(commands.Bot):
         await self.tree.sync()
 
 
-bot = SpinBot()
+bot = PhasmoBot()
 
 
 @bot.event
@@ -80,7 +95,7 @@ async def on_ready():
     name="phasmo", description="Choose a random Phasmophobia map based on attributes."
 )
 @app_commands.describe(size="Choose a map by its size")
-async def spin(interaction: discord.Interaction, size: str = None):
+async def map_picker(interaction: discord.Interaction, size: str = None):
     if size:
         size_key = size.lower()
         if size_key in ["small", "medium", "large"]:
@@ -99,6 +114,47 @@ async def spin(interaction: discord.Interaction, size: str = None):
     await interaction.response.send_message(
         f"{prefix} **{result["full_name"]}** {result["emoji"]}"
     )
+
+
+@bot.tree.command(
+    name="weekly", description="Show the details of the current Weekly Challenge"
+)
+async def weekly(interaction: discord.Interaction):
+    weekly_res = requests.get(
+        url="https://zero-network.net/phasmophobia/data/weekly.json",
+        headers={"Referer": "https://tybayn.github.io/"},
+    )
+    if weekly_res.status_code != 200:
+        await interaction.response.send_message(
+            "I failed to get the weekly challenge details, apologies about that"
+        )
+    weekly_challenge = weekly_res.json()
+    """
+    "id": 23,
+    "challenge": "Glow in the Dark",
+    "description": "Some of our equipment has stopped working, hopefully this'll be enough for you to see.",
+    "details": {
+        "num_evidence": 3,
+        "player_speed": 100,
+        "ghost_speed": 100,
+        "cursed_objects": [
+            "Random"
+        ],
+        "friendly_ghost": "Off",
+        "cssettings": {
+            "hunt_duration": "High",
+            "starting_sanity": 100,
+            "sanity_pill_restoration": 30,
+            "sanity_drain_speed": 200
+        }
+    },
+    "map": "42 Edgefield Road",
+    "equipment_url": "https://i.imgur.com/GWwcyOb.png",
+    "map_id": "edgefield",
+    "difficulty_id": "6112-0715-7724"
+    """
+
+    await interaction.response.send_message(format_weekly_msg(weekly_challenge))
 
 
 bot.run(DISCORD_BOT_TOKEN)
