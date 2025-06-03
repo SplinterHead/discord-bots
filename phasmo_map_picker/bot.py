@@ -59,20 +59,22 @@ PRESETS = {
     "size_large": [x for x in PHASMO_MAPS if x["size"] == "large"],
 }
 
+
 def format_weekly_msg(weekly_challenge: dict) -> str:
-    title = weekly_challenge['challenge']
-    description = weekly_challenge['description']
-    map = weekly_challenge['map']
-    num_evidence = weekly_challenge['details']['num_evidence']
+    title = weekly_challenge["challenge"]
+    description = weekly_challenge["description"]
+    map = weekly_challenge["map"]
+    num_evidence = weekly_challenge["details"]["num_evidence"]
     challenge_msg = [
         f"## {title}",
         f"_{description}_ \n",
         f"### 🏚️ {map}",
-        f"* You get **{num_evidence}** evidence{"s" if num_evidence > 1 else ""}"
+        f"* You get **{num_evidence}** evidence{"s" if num_evidence > 1 else ""}",
     ]
     return "\n".join(challenge_msg)
 
-class SpinBot(commands.Bot):
+
+class PhasmoBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
         super().__init__(command_prefix="!", intents=intents)
@@ -81,7 +83,7 @@ class SpinBot(commands.Bot):
         await self.tree.sync()
 
 
-bot = SpinBot()
+bot = PhasmoBot()
 
 
 @bot.event
@@ -93,7 +95,7 @@ async def on_ready():
     name="phasmo", description="Choose a random Phasmophobia map based on attributes."
 )
 @app_commands.describe(size="Choose a map by its size")
-async def spin(interaction: discord.Interaction, size: str = None):
+async def map_picker(interaction: discord.Interaction, size: str = None):
     if size:
         size_key = size.lower()
         if size_key in ["small", "medium", "large"]:
