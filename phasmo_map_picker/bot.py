@@ -59,6 +59,18 @@ PRESETS = {
     "size_large": [x for x in PHASMO_MAPS if x["size"] == "large"],
 }
 
+def format_weekly_msg(weekly_challenge: dict) -> str:
+    title = weekly_challenge['challenge']
+    description = weekly_challenge['description']
+    map = weekly_challenge['map']
+    num_evidence = weekly_challenge['details']['num_evidence']
+    challenge_msg = [
+        f"## {title}",
+        f"_{description}_ \n",
+        f"### 🏚️ {map}",
+        f"* You get **{num_evidence}** evidence{"s" if num_evidence > 1 else ""}"
+    ]
+    return "\n".join(challenge_msg)
 
 class SpinBot(commands.Bot):
     def __init__(self):
@@ -140,18 +152,7 @@ async def weekly(interaction: discord.Interaction):
     "difficulty_id": "6112-0715-7724"
     """
 
-    title = weekly_challenge['challenge']
-    description = weekly_challenge['description']
-    map = weekly_challenge['map']
-    num_evidence = weekly_challenge['details']['num_evidence']
-    challenge_msg = [
-        f"## {title}",
-        f"_{description}_ \n",
-        f"### 🏚️ {map}",
-        f"* You get **{num_evidence}** evidence{"s" if num_evidence > 1 else ""}"
-    ]
-
-    await interaction.response.send_message("\n".join(challenge_msg))
+    await interaction.response.send_message(format_weekly_msg(weekly_challenge))
 
 
 bot.run(DISCORD_BOT_TOKEN)
